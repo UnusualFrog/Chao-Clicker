@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CameraClick : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class CameraClick : MonoBehaviour
     {
     if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse is pressed down");
+            // Debug.Log("Mouse is pressed down");
             Camera cam = Camera.main;
 
             //Raycast depends on camera projection mode
@@ -50,14 +51,22 @@ public class CameraClick : MonoBehaviour
             if (hit)
             {
                 Debug.Log("We hit " + hit.collider.name);
-                hit.transform.position += new Vector3(0,100,0);
-                GoDown(hit);
+                if (hit.collider.name == "chao front facing")
+                {
+                    Jump(hit);
+                }
+                else if (hit.collider.name == "blackmarketicon")
+                {
+                    SceneManager.LoadScene("BlackMarketScene");
+                }
+                
             }
         }
     }
 
     
-    private void GoDown(RaycastHit2D target) {
+    private void Jump(RaycastHit2D target) {
+        target.transform.position += new Vector3(0,100,0);
         StartCoroutine(DelayDown(target));
     }
 
